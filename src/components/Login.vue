@@ -50,7 +50,7 @@ export default {
       loginFormRules: {
         username: [
           { required: true, message: '请输入用户名', trigger: 'blur' },
-          { min: 3, max: 18, message: '长度在 3 到 18 个字符', trigger: 'blur' }
+          { min: 3, max: 10, message: '长度在 3 到 10 个字符', trigger: 'blur' }
         ],
         password: [
           { required: true, message: '请输入密码', trigger: 'blur' },
@@ -69,7 +69,6 @@ export default {
       this.$refs.loginFormRef.validate(async valid => {
         if (!valid) return;
         const { data: res } = await this.$http.post('login', this.loginForm);
-        console.log(res);
         if (res.meta.status !== 200) return this.$message.error('登录失败');
         this.$message.success('登录成功');
         // 1.将登陆成功后的token，token只应该在当前网站打开期间生效，所以保存到客户端的sessionStorage中，
