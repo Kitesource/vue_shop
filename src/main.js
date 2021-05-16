@@ -7,11 +7,13 @@ import VueQuillEditor from 'vue-quill-editor';
 import 'quill/dist/quill.core.css' // import styles
 import 'quill/dist/quill.snow.css' // for snow theme
 import 'quill/dist/quill.bubble.css' // for bubble theme
-
 // 导入字体图标
 import './assets/fonts/iconfont.css'
 // 导入全局样式
 import './assets/css/global.css';
+
+import NProgress from 'nprogress';
+import 'nprogress/nprogress.css'
 
 
 import axios from 'axios';
@@ -19,8 +21,17 @@ axios.defaults.baseURL = 'http://127.0.0.1:8888/api/private/v1/';
 Vue.prototype.$http = axios;
 // 请求拦截器
 axios.interceptors.request.use(config => {
+  // 在请求拦截器中展示进度条
+  NProgress.start();
   // config 是请求对象
   config.headers.Authorization = window.sessionStorage.getItem('token');
+  // 最后必须return config
+  return config;
+})
+// 响应拦截器
+axios.interceptors.response.use(config => {
+  // 在请求拦截器中展示进度条
+  NProgress.done();
   // 最后必须return config
   return config;
 })
